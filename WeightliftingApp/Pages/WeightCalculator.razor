@@ -1,0 +1,89 @@
+﻿@page "/weight-calculator"
+@using BlazorApp.Services;
+@using WeightliftingApp.Services
+@inject IJSRuntime JSRuntime
+@inject IAlertService AlertService
+@inject WeightPlateService WeightPlateService
+
+<div style="text-align: center; align-content: center">
+    <div>
+        <h3>Weight Calculator</h3>
+    </div>
+
+    <div>
+        <label for="targetWeight">Target Weight:</label>
+        <input type="number" id="targetWeight" @bind="targetWeight" style="margin-left: 10px;" />
+    </div>
+
+    <div style="margin-top: 10px;">
+        <button class="btn-primary" @onclick="CalculatePlates">Calculate</button>
+    </div>
+
+    @if (plates != null && plates.Any())
+    {
+        <div class="showDiv" style="margin-top: 20px;">
+            <h4>Plates on Each Side:</h4>
+            <ul style="display: inline-block; text-align: left;">
+                @foreach (var plate in plates)
+                {
+                    <li style="margin-bottom: 10px;">Weight needed on each side: @plate.Key lbs: Plates on each side: @plate.Value</li>
+                }
+            </ul>
+            <h4>Total Weight Breakdown:</h4>
+            <ul style="display: inline-block; text-align: left;">
+                <li>Total weight requested: <b style="color:purple"> @targetWeight lbs </b></li>
+                <li>Bar weight: 45 lbs</li> 
+                <li>
+                    Total weight of plates on both sides:
+                    @{
+                        var weights = plates.Select(p => 2 * p.Key * p.Value);
+                        string weightList = string.Join("+", weights);
+                        decimal totalPlateWeight = plates.Sum(p => 2 * p.Key * p.Value);
+                    }
+                    @weightList lbs = <b style="color:brown"> @totalPlateWeight lbs </b>
+                </li> 
+                <li>
+                    Total weight including bar:
+                    @{
+                        decimal totalWeight = 45 + totalPlateWeight;
+                    }
+                    @totalWeight lbs
+                </li>
+            </ul>
+        </div>  
+        }
+        </div>
+
+@code {
+    private int targetWeight;
+    private Dictionary<Decimal, int> plates;
+
+    private async void CalculatePlates()
+    {
+        plates = null;
+        try
+        {
+            if (targetWeight < 45)
+            {
+                plates = new Dictionary<decimal, int>() { { 0m, 0 } };
+                AlertService.Error("Invalid weight!");
+                await JSRuntime.InvokeVoidAsync("showError", "Invalid weight, weight should be more than 45lbs!");
+            }
+            else
+            {
+                plates = WeightPlateService.CalculatePlates(targetWeight); 
+                await JSRuntime.InvokeVoidAsync("showAlert", "Successfully fetched weights!");
+            }
+        }
+        catch (Exception ex)
+        {
+            // Log the exception
+            Console.WriteLine($"Error: {ex.Message}");
+
+            // Show error to the user
+            await JSRuntime.InvokeVoidAsync("showError", "An error occurred while calculating weights.");
+            AlertService.Error("An error occurred while calculating weights.");
+        }
+    }
+
+}

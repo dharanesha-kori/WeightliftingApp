@@ -1,0 +1,177 @@
+﻿@inherits LayoutComponentBase
+
+<style>
+    .container {
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh; /* Ensures the container takes up at least the full viewport height */
+        position: relative; /* Positioning context for absolute positioning of child elements */
+    }
+
+    .background-image {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: -1;
+        /* Set your background image properties here */ 
+        background-size: cover;
+        /* Additional styles for overlay or effects if needed */
+    }
+
+    .sidebar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        height: 100%;
+        background-color: #f2f2f2;
+        overflow-y: auto; /* Add scrollbar if content exceeds */
+    }
+
+    .main {
+        margin-left: 250px !important; /* Same as sidebar width */
+        padding: 20px;
+        overflow-y: auto; /* Add scrollbar if content exceeds */
+    }
+
+    .footer {
+        background-color: #f2f2f2;
+        /*padding: 20px;*/
+        text-align: center;
+        height: 9%;
+        position: fixed;
+        width: 100%;
+        bottom: 0;
+        z-index: 1000; /* Ensure footer is above other content */
+    }
+
+    .user-profile {
+        /* Define common styles for the user profile */
+        padding: 5px;
+        border-radius: 5px;
+    }
+
+    .buttonprimary {
+        background-color: #007bff; /* Replace with your desired buttonprimary color */
+        color: #fff; /* Text color for better readability */
+    }
+
+    .info {
+        background-color: #17a2b8; /* Replace with your desired info color */
+        color: #fff; /* Text color for better readability */
+    }
+
+
+    .login-link {
+        /* Your existing styles for the login link */
+        text-decoration: solid; /* Remove the default underline for links */
+        color: white; /* Set the text color for the login link */
+    }
+
+    .header-box {
+        background-color: #333; /* Set your desired background color */
+        padding: 10px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .header-menu {
+        position: absolute;
+        top: 0;
+        left: 0;
+        z-index: 1;
+        width: 100%;
+        padding: 20px;
+        /*background-color: rgba(255, 255, 255, 0.7);
+                                                box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);*/
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+        .header-menu a {
+            text-decoration: none;
+            color: white;
+            margin: 0 10px;
+        }
+
+    .header-title {
+        font-weight: bold;
+        font-size: 20px;
+        text-align: center;
+        flex-grow: 1; /* Takes up available space and centers the title */
+    }
+
+    .header-container {
+        padding: 10px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .register-button {
+        display: inline-block;
+        padding: 15px 30px;
+        font-size: 18px;
+        font-weight: bold;
+        text-align: center;
+        text-decoration: none;
+        background-color: #007bff; /* Bootstrap's primary color */
+        color: #fff;
+        border-radius: 5px;
+        transition: background-color 0.3s ease;
+        z-index: 2; /* Put it on top of the overlay */
+    }
+
+        .register-button:hover {
+            background-color: #0056b3; /* Darker shade on hover */
+        }
+
+    .background-image {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: -1;
+        /* Set your background image properties here */
+        background-size: cover;
+        /* Additional styles for overlay or effects if needed */
+    }
+
+    .content {
+        position: relative;
+        z-index: 1; /* Ensure the content is above the background image */
+    }
+
+
+
+    /* Other styles for header-menu, center-container, main-content, etc. */
+
+</style>
+<div class="background-image">
+    <!-- Background image styles -->
+</div>
+<div class="sidebar">
+    <NavMenu />
+</div>
+
+<div style="padding-right: 10px; text-align: right;">
+    Hello, Team
+    <br />
+    Organisation: American Crystal Sugar
+    <br />
+    <button class="btn-primary">Logout</button>
+</div>
+<!-- Rest of your content -->
+@Body
+<div class="footer">
+    <p>
+        Dharanesha Kori - WeightliftingApp Ltd. Copyright © 2024  American Crystal Sugar Limited - All Rights Reserved.
+        <a href="/privacy-policy">Privacy Policy</a>
+    </p>
+    <p>All product and company names and logos are used for identification purposes only, and may be trademarks of their respective owners.</p>
+
+</div>
